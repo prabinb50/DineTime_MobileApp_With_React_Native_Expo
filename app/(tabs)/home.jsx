@@ -1,4 +1,4 @@
-import { View, Text, Image, Platform } from 'react-native'
+import { View, Text, Image, Platform, ScrollView, ImageBackground } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import logo from "../../assets/images/dinetimelogo.png"
@@ -27,6 +27,15 @@ const Home = () => {
                     </View>
                 </View>
             </View>
+
+            <ScrollView>
+                <ImageBackground
+                    resizeMode='cover'
+                    className="my-4 w-full h-52 items-center justify-center"
+                >
+
+                </ImageBackground>
+            </ScrollView>
         </SafeAreaView>
     )
 }
