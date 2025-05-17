@@ -7,6 +7,7 @@ import { restaurants } from '../../store/restaurants'
 
 const Home = () => {
 
+    // Function to render each restaurant item in the FlatList
     const renderItem = ({ item }) => (
         <TouchableOpacity
             className="bg-gradient-to-b from-[#706f6f] to-[#4d4d4d] h-full max-w-xs flex justify-center rounded-xl p-5 pt-7 mx-3 shadow-xl"
@@ -18,6 +19,7 @@ const Home = () => {
                 elevation: 8
             }}
         >
+            {/* Restaurant image */}
             <Image
                 resizeMode='cover'
                 source={{ uri: item.image }}
@@ -25,10 +27,13 @@ const Home = () => {
                 style={{ borderWidth: 2, borderColor: 'rgba(255,255,255,0.1)' }}
             />
 
+            {/* Restaurant name */}
             <Text className="text-white text-xl font-bold mb-1">{item.name}</Text>
 
+            {/* Restaurant address */}
             <Text className="text-gray-300 text-sm mb-1 opacity-90">{item.address}</Text>
 
+            {/* Opening and closing hours */}
             <View className="flex-row justify-between mt-1 bg-[#3c3c3c] p-2 rounded-lg">
                 <Text className="text-[#f49b33] text-sm">Opens: {item.opening}</Text>
                 <Text className="text-[#f49b33] text-sm">Closes: {item.closing}</Text>
@@ -60,46 +65,57 @@ const Home = () => {
                 </View>
             </View>
 
+            {/* Main content scrollable area */}
             <ScrollView stickyHeaderIndices={[0]}>
+                {/* Banner image with blur effect overlay */}
                 <ImageBackground
                     resizeMode='cover'
                     className=" w-full h-52 items-center justify-center bg-[#2b2b2b]"
                     source={homeBanner}
                 >
+                    {/* Blurred text overlay on banner */}
                     <BlurView intensity={Platform.OS === "android" ? 100 : 50} tint='dark' className="w-full p-3 shadow-lg">
                         <Text className="text-center font-bold text-white text-3xl">Dine with your loved ones</Text>
                     </BlurView>
                 </ImageBackground>
 
+                {/* Special Discount section header */}
                 <View className="pt-4 px-4 bg-[#2b2b2b] flex-row items-center">
-                    <Text className="text-white text-3xl  font-semibold mr-2">Special Discount %</Text>
+                    <Text className="text-white text-3xl font-semibold mr-2">Special Discount %</Text>
                 </View>
 
+                {/* Special Discount restaurants horizontal list */}
                 {
                     restaurants.length > 0 ? (
                         <FlatList
                             data={restaurants}
                             renderItem={renderItem}
                             horizontal
-                            contentContainerStyle={{ padding: 16 }} showsHorizontalScrollIndicator={false}
+                            contentContainerStyle={{ padding: 16 }} 
+                            showsHorizontalScrollIndicator={false}
                             scrollEnabled={true} />
                     ) : (
+                        // Show loading indicator when no restaurants are available
                         <ActivityIndicator animating color={"#f49b33"} />
                     )}
 
+                {/* Our Restaurants section header */}
                 <View className="pt-4 px-4 bg-[#2b2b2b] flex-row items-center">
-                    <Text className="text-[#f49b33] text-3xl  font-semibold mr-2">Our Restaurants</Text>
+                    <Text className="text-[#f49b33] text-3xl font-semibold mr-2">Our Restaurants</Text>
                 </View>
 
+                {/* Main restaurants horizontal list */}
                 {
                     restaurants.length > 0 ? (
                         <FlatList
                             data={restaurants}
                             renderItem={renderItem}
                             horizontal
-                            contentContainerStyle={{ padding: 16 }} showsHorizontalScrollIndicator={false}
+                            contentContainerStyle={{ padding: 16 }} 
+                            showsHorizontalScrollIndicator={false}
                             scrollEnabled={true} />
                     ) : (
+                        // Show loading indicator when no restaurants are available
                         <ActivityIndicator animating color={"#f49b33"} />
                     )}
 
