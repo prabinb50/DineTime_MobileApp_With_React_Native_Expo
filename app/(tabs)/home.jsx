@@ -1,9 +1,24 @@
-import { View, Text, Image, Platform, ScrollView, ImageBackground } from 'react-native'
-import React from 'react'
+import { View, Text, Image, Platform, ScrollView, ImageBackground, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import logo from "../../assets/images/dinetimelogo.png"
+import homeBanner from "../../assets/images/homeBanner.png"
+import { BlurView } from 'expo-blur'
+import { restaurants } from '../../store/restaurants'
 
 const Home = () => {
+
+    const renderItem = ({ item }) => (
+        <TouchableOpacity>
+            <Image
+                resizeMode='cover'
+                source={{ uri: item.image }}
+                className="h-28 mt-2 mb-1 rounded-lg"
+            />
+
+            <Text className="">{item.name}</Text>
+        </TouchableOpacity>
+    )
+
     return (
         // SafeAreaView ensures content is displayed within the safe area boundaries of a device
         <SafeAreaView className="bg-[#2b2b2b] ">
@@ -28,18 +43,31 @@ const Home = () => {
                 </View>
             </View>
 
-            <ScrollView>
+            <ScrollView stickyHeaderIndices={[0]}>
                 <ImageBackground
                     resizeMode='cover'
-                    className="my-4 w-full h-52 items-center justify-center"
+                    className="mb-4 w-full h-52 items-center justify-center bg-[#2b2b2b]"
+                    source={homeBanner}
                 >
-
+                    <BlurView intensity={Platform.OS === "android" ? 100 : 50} tint='dark' className="w-full p-4 shadow-lg">
+                        <Text className="text-center font-bold text-white text-3xl">Dine with your family</Text>
+                    </BlurView>
                 </ImageBackground>
+
+                {
+                    restaurants.length > 0 ?
+                        <FlatList
+                            data={restaurants}
+                            renderItem={renderItem}
+                            horizontal
+                            contentContainerStyle={{ padding: 16 }} showsHorizontalScrollIndicator={false}
+                            scrollEnabled={true} />
+                        :
+                        <ActivityIndicator animating color={"#f49b33"} />
+                }
             </ScrollView>
         </SafeAreaView>
     )
 }
 
 export default Home
-
-// 2:07
