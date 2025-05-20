@@ -4,8 +4,14 @@ import logo from "../../assets/images/dinetimelogo.png"
 import homeBanner from "../../assets/images/homeBanner.png"
 import { BlurView } from 'expo-blur'
 import { restaurants } from '../../store/restaurants'
+import uploadData from '../../config/bulkupload'
+import { useEffect } from 'react'
 
 const Home = () => {
+
+    // useEffect(() => {
+    //     uploadData();
+    // }, [])
 
     // Function to render each restaurant item in the FlatList
     const renderItem = ({ item }) => (
@@ -91,7 +97,7 @@ const Home = () => {
                             data={restaurants}
                             renderItem={renderItem}
                             horizontal
-                            contentContainerStyle={{ padding: 16 }} 
+                            contentContainerStyle={{ padding: 16 }}
                             showsHorizontalScrollIndicator={false}
                             scrollEnabled={true} />
                     ) : (
@@ -111,7 +117,7 @@ const Home = () => {
                             data={restaurants}
                             renderItem={renderItem}
                             horizontal
-                            contentContainerStyle={{ padding: 16 }} 
+                            contentContainerStyle={{ padding: 16 }}
                             showsHorizontalScrollIndicator={false}
                             scrollEnabled={true} />
                     ) : (
