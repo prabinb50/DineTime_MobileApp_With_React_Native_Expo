@@ -6,8 +6,12 @@ import { BlurView } from 'expo-blur'
 import { useEffect, useState } from 'react'
 import { collection, getDocs, query } from 'firebase/firestore'
 import { db } from '../../config/firebaseConfig'
+import { useRouter } from 'expo-router'
 
 const Home = () => {
+
+    // hook to navigate between pages
+    const router = useRouter();
 
     // state to hold restaurant data
     const [restaurants, setRestaurants] = useState([]);
@@ -43,6 +47,7 @@ const Home = () => {
                 shadowRadius: 6,
                 elevation: 8
             }}
+            onPress={() => router.push(`/restaurant/${item.name}`)}
         >
             {/* Restaurant image */}
             <Image
