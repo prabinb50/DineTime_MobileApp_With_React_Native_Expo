@@ -3,11 +3,30 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import logo from "../../assets/images/dinetimelogo.png"
 import homeBanner from "../../assets/images/homeBanner.png"
 import { BlurView } from 'expo-blur'
-import { restaurants } from '../../store/restaurants'
-import uploadData from '../../config/bulkupload'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { collection, getDocs, query } from 'firebase/firestore'
+import { db } from '../../config/firebaseConfig'
 
 const Home = () => {
+
+    // state to hold restaurant data
+    const [restaurants, setRestaurants] = useState([]);
+
+    // Function to fetch restaurants from Firestore
+    const getRestaurants = async () => {
+        const q = query(collection(db, "restaurants"));
+        const result = await getDocs(q);
+
+        // Map through the results and set the restaurants state
+        result.forEach((item) => {
+            setRestaurants((prev) => [...prev, item.data()]);
+        });
+    };
+
+    // fetch restaurants when the component mounts
+    useEffect(() => {
+        getRestaurants();
+    }, []);
 
     // useEffect(() => {
     //     uploadData();
@@ -45,7 +64,9 @@ const Home = () => {
                 <Text className="text-[#f49b33] text-sm">Closes: {item.closing}</Text>
             </View>
         </TouchableOpacity>
-    )
+    );
+
+
 
     return (
         // SafeAreaView ensures content is displayed within the safe area boundaries of a device
