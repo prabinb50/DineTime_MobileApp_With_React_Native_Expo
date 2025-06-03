@@ -1,9 +1,10 @@
 import { useLocalSearchParams } from 'expo-router';
 import { collection, getDocs, query, where } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
-import { Platform, ScrollView, Text, View } from 'react-native'
+import { useEffect, useRef, useState } from 'react';
+import { Dimensions, FlatList, Image, Platform, ScrollView, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { db } from '../../config/firebaseConfig';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 const Restaurant = () => {
     // Get restaurant name from URL params
@@ -75,6 +76,68 @@ const Restaurant = () => {
         getRestaurantData();
     }, []);
 
+    // Reference to the FlatList for scrolling
+    const flatListRef = useRef(null);
+
+    // Get the width of the device window for carousel item sizing
+    const windowWidth = Dimensions.get('window').width;
+
+    // State to manage the current index of the carousel
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    // Function to handle next image in the carousel
+    const handleNextImage = () => {
+        // If the current index is less than the last image, increment the index and scroll to the next image
+        if (currentIndex < carouselData[0]?.images.length - 1) {
+            setCurrentIndex(currentIndex + 1);
+            flatListRef.current.scrollToIndex({ index: currentIndex + 1, animated: true });
+        }
+
+        // If the current index is the last image, reset to the first image
+        if (currentIndex === carouselData[0]?.images.length - 1) {
+            setCurrentIndex(0);
+            flatListRef.current.scrollToIndex({ index: 0, animated: true });
+        }
+    };
+
+    // Function to handle previous image in the carousel
+    const handlePreviousImage = () => {
+        // If the current index is greater than 0, decrement the index and scroll to the previous image
+        if (currentIndex > 0) {
+            setCurrentIndex(currentIndex - 1);
+            flatListRef.current.scrollToIndex({ index: currentIndex - 1, animated: true });
+        }
+    };
+
+    // Function to render each item in the carousel
+    const carouselItem = ({ item }) => {
+        return (
+            // View container for each carousel item
+            <View style={{ width: windowWidth - 2 }} className="h-64 relative rounded-[25px]">
+                {/* Overlay for next button  */}
+                {currentIndex < (carouselData[0]?.images.length - 1) && (
+                    <View style={{ position: "absolute", top: "50%", backgroundColor: "rgba(0,0,0,0.6)", borderRadius: 50, padding: 5, zIndex: 10, right: "6%" }}>
+                        <Ionicons name="arrow-forward" size={24} color="white" onPress={handleNextImage} />
+                    </View>
+                )}
+
+                {/* Overlay for previous button  */}
+                {currentIndex > 0 && (
+                    <View style={{ position: "absolute", top: "50%", backgroundColor: "rgba(0,0,0,0.6)", borderRadius: 50, padding: 5, zIndex: 10, left: "2%" }}>
+                        <Ionicons name="arrow-back" size={24} color="white" onPress={handlePreviousImage} />
+                    </View>
+                )}
+
+                {/* Image for the carousel item */}
+                <Image
+                    source={{ uri: item }}
+                    style={{ opacity: 0.5, backgroundColor: "black", marginRight: 20, marginLeft: 5, borderRadius: 25 }}
+                    className="h-64"
+                />
+            </View>
+        )
+    };
+
     return (
         // SafeAreaView with platform-specific padding
         <SafeAreaView
@@ -88,6 +151,18 @@ const Restaurant = () => {
 
                     {/* Horizontal divider */}
                     <View className="border-b border-[#f49b33]" />
+                </View>
+
+                <View className="h-64 max-w-[98%] mx-2 rounded-[25px]">
+                    <FlatList
+                        ref={flatListRef}
+                        data={carouselData[0]?.images}
+                        renderItem={carouselItem}
+                        horizontal
+                        scrollEnabled={false}
+                        showsHorizontalScrollIndicator={false}
+                        style={{ borderRadius: 25 }}
+                    />
                 </View>
             </ScrollView>
         </SafeAreaView>
