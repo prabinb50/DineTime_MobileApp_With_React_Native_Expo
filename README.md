@@ -1,4 +1,4 @@
-# React Native Fullstack Project
+# DineTime - React Native Fullstack Project 
 
 ## Overview
 
