@@ -71,8 +71,6 @@ const Home = () => {
         </TouchableOpacity>
     );
 
-
-
     return (
         // SafeAreaView ensures content is displayed within the safe area boundaries of a device
         <SafeAreaView style={[{ backgroundColor: "#2b2b2b" }, Platform.OS === "android" && { paddingBottom: 50 }, Platform.OS === "ios" && { paddingBottom: 20 }]}>
