@@ -1,10 +1,11 @@
 import { useLocalSearchParams } from 'expo-router';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { useEffect, useRef, useState } from 'react';
-import { Dimensions, FlatList, Image, Platform, ScrollView, Text, View } from 'react-native'
+import { Dimensions, FlatList, Image, Linking, Platform, ScrollView, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { db } from '../../config/firebaseConfig';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import DataPicker from '../../components/restaurant/DataPicker';
 
 const Restaurant = () => {
     // Get restaurant name from URL params
@@ -128,6 +129,23 @@ const Restaurant = () => {
                     </View>
                 )}
 
+                {/* Dots for carousel navigation */}
+                <View style={{ position: "absolute", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row", left: "50%", transform: [{ translateX: -50 }], zIndex: 10, bottom: 15 }}>
+                    {/* Render dots based on the number of images in the carousel */}
+                    {carouselData[0]?.images.map((_, index) => (
+                        <View
+                            key={index}
+                            style={{
+                                width: 8,
+                                height: 8,
+                                borderRadius: 5,
+                                backgroundColor: currentIndex === index ? "#f49b33" : "rgba(255,255,255,0.5)",
+                                marginHorizontal: 2
+                            }}
+                        />
+                    ))}
+                </View>
+
                 {/* Image for the carousel item */}
                 <Image
                     source={{ uri: item }}
@@ -138,8 +156,22 @@ const Restaurant = () => {
         )
     };
 
+    // Function to handle navigation to the restaurant's location
+    const handleLocation = async () => {
+        // URL for Google Maps to get directions to the restaurant
+        const url = "https://maps.app.goo.gl/WXq11BJTUKfCr3eX6";
+
+        // Check if the device can open the URL
+        const supported = await Linking.canOpenURL(url);
+        if (supported) {
+            // Open the URL in the default browser or maps app
+            await Linking.openURL(url);
+        } else {
+            console.log("Don't know how to open URI: " + url);
+        }
+    };
+
     return (
-        // SafeAreaView with platform-specific padding
         <SafeAreaView
             style={[{ backgroundColor: "#2b2b2b" }, Platform.OS === "android" && { paddingBottom: 50 }, Platform.OS === "ios" && { paddingBottom: 20 }]}
         >
@@ -153,6 +185,7 @@ const Restaurant = () => {
                     <View className="border-b border-[#f49b33]" />
                 </View>
 
+                {/* Carousel section for restaurant images */}
                 <View className="h-64 max-w-[98%] mx-2 rounded-[25px]">
                     <FlatList
                         ref={flatListRef}
@@ -163,6 +196,35 @@ const Restaurant = () => {
                         showsHorizontalScrollIndicator={false}
                         style={{ borderRadius: 25 }}
                     />
+                </View>
+
+                {/* Restaurant details section */}
+                <View className="flex-1 flex-row mt-2 p-2">
+                    <Ionicons name="location-sharp" size={24} color="#f49b33" />
+
+                    {/* Restaurant address and direction link */}
+                    <Text className="max-w-[80%] text-white">
+                        {/* Restaurant address */}
+                        {restaurantData?.address} | {" "}
+
+                        {/* Link to get directions */}
+                        <Text className="underline flex items-center text-[#f49b33] italic font-semibold" onPress={handleLocation}>
+                            Get Direction
+                        </Text>
+                    </Text>
+                </View>
+
+                {/* Restaurant opening and closing hours */}
+                <View className="flex-1 flex-row p-2">
+                    <Ionicons name="time" size={20} color="#f49b33" />
+
+                    <Text className="max-w-[75%] mx-2 font-semibold text-white">
+                        {restaurantData?.opening} - {restaurantData?.closing}
+                    </Text>
+                </View>
+
+                <View>
+                    <DataPicker></DataPicker>
                 </View>
             </ScrollView>
         </SafeAreaView>

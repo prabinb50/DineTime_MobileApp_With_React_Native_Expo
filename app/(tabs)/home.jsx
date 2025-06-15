@@ -81,7 +81,7 @@ const Home = () => {
                         {/* Welcome message */}
                         <Text
                             className="text-base h-10 align-middle text-white"
-                            style={{ paddingTop: Platform.OS === "android" ? 6.5 : 8 }}>
+                            style={{ paddingTop: Platform.OS === "android" ? 2 : 8 }}>
                             {" "}Welcome to{" "}
                         </Text>
 
