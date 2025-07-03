@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { db } from '../../config/firebaseConfig';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import DataPicker from '../../components/restaurant/DataPicker';
+import GuestPicker from '../../components/restaurant/GuestPicker';
 
 const Restaurant = () => {
     // Get restaurant name from URL params
@@ -171,6 +172,12 @@ const Restaurant = () => {
         }
     };
 
+    // State to hold the selected date
+    const [date, setDate] = useState(new Date());
+
+    // State to hold the selected number of guests
+    const [selectedNumber, setSelectedNumber] = useState(1);
+
     return (
         <SafeAreaView
             style={[{ backgroundColor: "#2b2b2b" }, Platform.OS === "android" && { paddingBottom: 50 }, Platform.OS === "ios" && { paddingBottom: 20 }]}
@@ -223,8 +230,35 @@ const Restaurant = () => {
                     </Text>
                 </View>
 
-                <View>
-                    <DataPicker></DataPicker>
+                {/* DataPicker and GuestPicker components */}
+                <View className="flex-1 border m-2 p-2 border-[#f49b33] rounded">
+                    {/* DataPicker component for selecting date and time */}
+                    <View className="flex-1 flex-row p-2 m-2 items-center justify-between">
+                        {/* Icon and label for date selection */}
+                        <View className="flex flex-row">
+                            <Ionicons name="calendar" size={20} color="#f49b33" />
+
+                            <Text className="text-white mx-2 text-base">
+                                Select Booking Date
+                            </Text>
+                        </View>
+
+                        <DataPicker date={date} setDate={setDate}></DataPicker>
+                    </View>
+
+                    {/* GuestPicker component for selecting number of guests */}
+                    <View className="flex-1 flex-row p-2 items-center justify-between bg-[#474747] rounded-lg m-2">
+                        {/* Icon and label for date selection */}
+                        <View className="flex flex-row">
+                            <Ionicons name="people" size={20} color="#f49b33" />
+
+                            <Text className="text-white mx-2 text-base">
+                                Select Number of Guests
+                            </Text>
+                        </View>
+
+                        <GuestPicker selectedNumber={selectedNumber} setSelectedNumber={setSelectedNumber}></GuestPicker>
+                    </View>
                 </View>
             </ScrollView>
         </SafeAreaView>
