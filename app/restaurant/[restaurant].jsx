@@ -7,6 +7,7 @@ import { db } from '../../config/firebaseConfig';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import DataPicker from '../../components/restaurant/DataPicker';
 import GuestPicker from '../../components/restaurant/GuestPicker';
+import FindSlots from '../../components/restaurant/FindSlots';
 
 const Restaurant = () => {
     // Get restaurant name from URL params
@@ -66,7 +67,7 @@ const Restaurant = () => {
                 slotsSnapshot.forEach((slotDoc) => {
                     slots.push(slotDoc.data());
                 });
-                setSlotsData(slots);
+                setSlotsData(slots[0]?.slot);
             }
         } catch (error) {
             console.error("Error fetching restaurant data:", error);
@@ -178,6 +179,9 @@ const Restaurant = () => {
     // State to hold the selected number of guests
     const [selectedNumber, setSelectedNumber] = useState(1);
 
+    // State to hold the selected slot
+    const [selectedSlot, setSelectedSlot] = useState(null);
+
     return (
         <SafeAreaView
             style={[{ backgroundColor: "#2b2b2b" }, Platform.OS === "android" && { paddingBottom: 50 }, Platform.OS === "ios" && { paddingBottom: 20 }]}
@@ -248,7 +252,7 @@ const Restaurant = () => {
 
                     {/* GuestPicker component for selecting number of guests */}
                     <View className="flex-1 flex-row p-2 items-center justify-between bg-[#474747] rounded-lg m-2">
-                        {/* Icon and label for date selection */}
+                        {/* Icon and label for guest selection */}
                         <View className="flex flex-row">
                             <Ionicons name="people" size={20} color="#f49b33" />
 
@@ -259,6 +263,17 @@ const Restaurant = () => {
 
                         <GuestPicker selectedNumber={selectedNumber} setSelectedNumber={setSelectedNumber}></GuestPicker>
                     </View>
+                </View>
+
+                {/* FindSlots component for displaying available slots */}
+                <View className="flex-1">
+                    <FindSlots
+                        slots={slotsData}
+                        selectedSlot={selectedSlot}
+                        setSelectedSlot={setSelectedSlot}
+                        date={date}
+                        selectedNumber={selectedNumber}
+                    />
                 </View>
             </ScrollView>
         </SafeAreaView>
