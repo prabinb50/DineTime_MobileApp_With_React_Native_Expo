@@ -268,6 +268,7 @@ const Restaurant = () => {
                 {/* FindSlots component for displaying available slots */}
                 <View className="flex-1">
                     <FindSlots
+                        restaurant={restaurant}
                         slots={slotsData}
                         selectedSlot={selectedSlot}
                         setSelectedSlot={setSelectedSlot}

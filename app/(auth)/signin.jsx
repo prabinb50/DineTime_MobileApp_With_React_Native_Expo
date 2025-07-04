@@ -11,7 +11,7 @@ import { auth, db } from "../../config/firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 
 const SignIn = () => {
-    const router = useRouter(); 
+    const router = useRouter();
 
     // function to handle user login process
     const handleSignIn = async (values) => {
@@ -57,6 +57,15 @@ const SignIn = () => {
 
         }
     };
+
+    // function to handle guest user login
+    const handleGuestUser = async () => {
+        // store a flag in AsyncStorage to indicate that the user is a guest
+        await AsyncStorage.setItem("isGuest", "true");
+
+        // navigate to the home page as a guest user
+        router.push("/home");
+    }
 
     return (
         <SafeAreaView className="bg-[#2b2b2b]">
@@ -135,7 +144,7 @@ const SignIn = () => {
                             </Text>
 
                             {/* Guest User Option */}
-                            <TouchableOpacity onPress={() => router.push("/home")} className="flex flex-row justify-center items-center mt-2 p-2">
+                            <TouchableOpacity onPress={handleGuestUser} className="flex flex-row justify-center items-center mt-2 p-2">
                                 <Text className="text-white font-semibold">Be a {" "}</Text>
                                 <Text className="text-base font-semibold underline text-[#f49b33]">Guest User</Text>
                             </TouchableOpacity>

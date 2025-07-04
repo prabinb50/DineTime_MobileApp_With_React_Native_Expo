@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { collection, getDocs, query } from 'firebase/firestore'
 import { db } from '../../config/firebaseConfig'
 import { useRouter } from 'expo-router'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Home = () => {
     // hook to navigate between pages
@@ -14,6 +15,14 @@ const Home = () => {
 
     // state to hold restaurant data
     const [restaurants, setRestaurants] = useState([]);
+
+    // Function to log the guest user email from AsyncStorage
+    const temp = async () => {
+        const value = await AsyncStorage.getItem("isGuest");
+
+        const email = await AsyncStorage.getItem("userEmail");
+        console.log(value, email);
+    }
 
     // Function to fetch restaurants from Firestore
     const getRestaurants = async () => {
@@ -29,6 +38,8 @@ const Home = () => {
     // fetch restaurants when the component mounts
     useEffect(() => {
         getRestaurants();
+
+        temp(); // Call temp function to log user email
     }, []);
 
     // useEffect(() => {
