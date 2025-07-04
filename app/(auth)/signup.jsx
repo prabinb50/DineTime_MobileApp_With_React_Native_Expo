@@ -5,16 +5,19 @@ import logo from "../../assets/images/dinetimelogo.png";
 import emptyImg from "../../assets/images/Frame.png";
 import { Formik } from "formik";
 import validationSchema from "../../utils/authSchema";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+// import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+// import { doc, getFirestore, setDoc } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "../../config/firebaseConfig";
 
 const SignUp = () => {
     const router = useRouter(); // hook to navigate between routes
 
-    const auth = getAuth(); // firebase authentication instance
+    // const auth = getAuth(); // firebase authentication instance
 
-    const db = getFirestore();
+    // const db = getFirestore();
 
     // function to handle user sign-up process
     const handleSignUp = async (values) => {

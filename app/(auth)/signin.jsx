@@ -5,16 +5,13 @@ import logo from "../../assets/images/dinetimelogo.png"
 import emptyImg from "../../assets/images/Frame.png"
 import { Formik } from "formik";
 import validationSchema from "../../utils/authSchema";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc, getFirestore } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../../config/firebaseConfig";
+import { doc, getDoc } from "firebase/firestore";
 
 const SignIn = () => {
-    const router = useRouter(); // Used to navigate between pages
-
-    const auth = getAuth(); // firebase authentication instance
-
-    const db = getFirestore(); // firestore database instance
+    const router = useRouter(); 
 
     // function to handle user login process
     const handleSignIn = async (values) => {
