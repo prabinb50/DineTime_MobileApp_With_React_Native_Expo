@@ -9,7 +9,6 @@ import { db } from '../../config/firebaseConfig'
 import { useRouter } from 'expo-router'
 
 const Home = () => {
-
     // hook to navigate between pages
     const router = useRouter();
 
@@ -72,7 +71,6 @@ const Home = () => {
     );
 
     return (
-        // SafeAreaView ensures content is displayed within the safe area boundaries of a device
         <SafeAreaView style={[{ backgroundColor: "#2b2b2b" }, Platform.OS === "android" && { paddingBottom: 50 }, Platform.OS === "ios" && { paddingBottom: 20 }]}>
             <View className="flex items-center">
                 {/* Container for the welcome message and logo */}
@@ -97,7 +95,7 @@ const Home = () => {
 
             {/* Main content scrollable area */}
             <ScrollView stickyHeaderIndices={[0]}>
-                {/* Banner image with blur effect overlay */}
+                {/* Banner image */}
                 <ImageBackground
                     resizeMode='cover'
                     className=" w-full h-52 items-center justify-center bg-[#2b2b2b]"

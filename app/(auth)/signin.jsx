@@ -41,7 +41,7 @@ const SignIn = () => {
                                     {/* Email Input Field */}
                                     <Text className="text-[#f49b33] mt-4 mb-2">Email</Text>
                                     <TextInput
-                                        className="h-10 border border-white rounded px-2 text-white"
+                                        className="h-11 border border-white rounded px-2 text-white"
                                         keyboardType="email-address"
                                         onChangeText={handleChange("email")}
                                         value={values.email}
@@ -54,7 +54,7 @@ const SignIn = () => {
                                     {/* Password Input Field */}
                                     <Text className="text-[#f49b33] mt-4 mb-2">Password</Text>
                                     <TextInput
-                                        className="h-10 border border-white rounded px-2 text-white"
+                                        className="h-11 border border-white rounded px-2 text-white"
                                         secureTextEntry
                                         onChangeText={handleChange("password")}
                                         value={values.password}

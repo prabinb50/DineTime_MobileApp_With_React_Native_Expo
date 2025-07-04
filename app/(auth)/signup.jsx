@@ -1,20 +1,63 @@
-import { Image, ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Image, ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import logo from "../../assets/images/dinetimelogo.png";
 import emptyImg from "../../assets/images/Frame.png";
 import { Formik } from "formik";
 import validationSchema from "../../utils/authSchema";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignUp = () => {
-    const router = useRouter(); // Hook to navigate between routes
+    const router = useRouter(); // hook to navigate between routes
 
-    const handleSignUp = () => { }; // Placeholder function for sign-up logic
+    const auth = getAuth(); // firebase authentication instance
+
+    const db = getFirestore();
+
+    // function to handle user sign-up process
+    const handleSignUp = async (values) => {
+        try {
+            // create a new user account with Firebase Authentication
+            const userCredentials = await createUserWithEmailAndPassword(auth, values.email, values.password);
+
+            // extract the user object from the response which contains the newly created user's information
+            const user = userCredentials.user;
+
+            // store user information in firestore database
+            await setDoc(doc(db, "users", user.uid), {
+                email: values.email,
+                createdAt: new Date(),
+            });
+
+            // store user email in AsyncStorage 
+            await AsyncStorage.setItem("userEmail", values.email);
+
+            // navigate to the home page after successful sign-up
+            router.push("/home");
+
+        } catch (error) {
+            console.log("Error while signing up:", error);
+
+            if (error.code === "auth/email-already-in-use") {
+                Alert.alert("Signup Failed!",
+                    "This email is already in use. Please try a different email.",
+                    [{ text: "OK" }]
+                );
+            } else {
+                Alert.alert("Signup Error!",
+                    "An unexpected error occurred. Please try again later.",
+                    [{ text: "OK" }]
+                );
+            }
+        }
+    };
 
     return (
         <SafeAreaView className="bg-[#2b2b2b]">
-            {/* Set status bar style for better UI visibility */}
             <StatusBar barStyle={"light-content"} />
+
             {/* Make the screen scrollable */}
             <ScrollView contentContainerStyle={{ height: "100%" }}>
                 {/* Center content on the screen */}
@@ -37,7 +80,7 @@ const SignUp = () => {
                                     {/* Email Field */}
                                     <Text className="text-[#f49b33] mt-4 mb-2">Email</Text>
                                     <TextInput
-                                        className="h-10 border border-white rounded px-2 text-white"
+                                        className="h-11 border border-white rounded px-2 text-white"
                                         keyboardType="email-address"
                                         onChangeText={handleChange("email")}
                                         value={values.email}
@@ -50,7 +93,7 @@ const SignUp = () => {
                                     {/* Password Field */}
                                     <Text className="text-[#f49b33] mt-4 mb-2">Password</Text>
                                     <TextInput
-                                        className="h-10 border border-white rounded px-2 text-white"
+                                        className="h-11 border border-white rounded px-2 text-white"
                                         secureTextEntry
                                         onChangeText={handleChange("password")}
                                         value={values.password}
