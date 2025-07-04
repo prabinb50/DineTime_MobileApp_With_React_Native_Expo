@@ -1,22 +1,69 @@
-import { Image, ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context"; // Ensures content stays within safe screen areas (e.g., not under notches)
+import { Alert, Image, ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import logo from "../../assets/images/dinetimelogo.png"
 import emptyImg from "../../assets/images/Frame.png"
 import { Formik } from "formik";
 import validationSchema from "../../utils/authSchema";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignIn = () => {
     const router = useRouter(); // Used to navigate between pages
 
-    // Placeholder sign-in handler, to be implemented
-    const handleSignIn = () => { };
+    const auth = getAuth(); // firebase authentication instance
+
+    const db = getFirestore(); // firestore database instance
+
+    // function to handle user login process
+    const handleSignIn = async (values) => {
+        try {
+            // login the user using Firebase Authentication with provided email and password
+            const userCredentials = await signInWithEmailAndPassword(auth, values.email, values.password);
+
+            // extract the user object from signin response
+            const user = userCredentials.user;
+
+            // fetch the user document from Firestore using the user's unique ID
+            const userDoc = await getDoc(doc(db, "users", user.uid));
+
+            // check if the user document exists in Firestore or not 
+            if (userDoc.exists()) {
+                // if user document exists then store the user email in AsyncStorage
+                await AsyncStorage.setItem("userEmail", values.email);
+
+                // navigate to the home page after successful sign-in
+                router.push("/home");
+            } else {
+                // if user document does not exist then alert the user
+                Alert.alert("User Not Found!",
+                    "No user found with this email. Please sign up.",
+                    [{ text: "OK" }]
+                );
+            }
+        } catch (error) {
+            console.log("Error while logging up:", error);
+
+            // case 1: alert for wrong password or wrong email
+            if (error.code === "auth/invalid-credential") {
+                Alert.alert("Login Failed!",
+                    "The email or password you entered is incorrect. Please try again.",
+                    [{ text: "OK" }]
+                );
+            } else {
+                Alert.alert("Login Error!",
+                    "An unexpected error occurred. Please try again later.",
+                    [{ text: "OK" }]
+                );
+            }
+
+        }
+    };
 
     return (
         <SafeAreaView className="bg-[#2b2b2b]">
-            {/* Light status bar icons for dark background */}
             <StatusBar barStyle={"light-content"} />
-            {/* Scrollable content that fills the screen */}
             <ScrollView contentContainerStyle={{ height: "100%" }}>
                 {/* Centered content with margin */}
                 <View className="m-2 flex justify-center items-center">

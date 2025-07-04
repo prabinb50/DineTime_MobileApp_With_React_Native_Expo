@@ -35,11 +35,12 @@ const SignUp = () => {
             await AsyncStorage.setItem("userEmail", values.email);
 
             // navigate to the home page after successful sign-up
-            router.push("/home");
+            router.push("/signin");
 
         } catch (error) {
             console.log("Error while signing up:", error);
 
+            // case 1: alert for email already in use and unexpected or network error
             if (error.code === "auth/email-already-in-use") {
                 Alert.alert("Signup Failed!",
                     "This email is already in use. Please try a different email.",
