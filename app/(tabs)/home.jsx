@@ -10,8 +10,7 @@ import { useRouter } from 'expo-router'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Home = () => {
-    // hook to navigate between pages
-    const router = useRouter();
+    const router = useRouter(); // hook to navigate between pages
 
     // state to hold restaurant data
     const [restaurants, setRestaurants] = useState([]);
