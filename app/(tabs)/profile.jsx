@@ -10,12 +10,15 @@ const Profile = () => {
     const [userEmail, setUserEmail] = useState(null);
 
     useEffect(() => {
+        // function to fetch user's email from AsyncStorage
         const fetchUserEmail = async () => {
+            // get email from AsyncStorage
             const email = await AsyncStorage.getItem("userEmail");
-            setUserEmail(email);
+
+            setUserEmail(email);  // store it in state
         };
 
-        fetchUserEmail();
+        fetchUserEmail(); // call the fetch function
     }, []);
 
     // function to handle user logout
