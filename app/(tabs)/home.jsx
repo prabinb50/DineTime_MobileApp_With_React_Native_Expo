@@ -41,10 +41,6 @@ const Home = () => {
         temp(); // Call temp function to log user email
     }, []);
 
-    // useEffect(() => {
-    //     uploadData();
-    // }, [])
-
     // Function to render each restaurant item in the FlatList
     const renderItem = ({ item }) => (
         <TouchableOpacity
