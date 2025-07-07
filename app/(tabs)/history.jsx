@@ -32,58 +32,58 @@ const History = () => {
         fetchUserEmail();
     }, []);
 
-    useEffect(() => {
-        // function to fetch bookings from AsyncStorage
-        const fetchBookings = async () => {
-            // check if user's email is exists
-            if (userEmail) {
-                try {
-                    // reference to the bookings collection in firestore
-                    const bookingCollection = collection(db, "bookings");
+    // function to fetch bookings from AsyncStorage
+    const fetchBookings = async () => {
+        // check if user's email is exists
+        if (userEmail) {
+            try {
+                // reference to the bookings collection in firestore
+                const bookingCollection = collection(db, "bookings");
 
-                    // query to get bookings for the user
-                    const bookingQuery = query(bookingCollection, where("email", "==", userEmail));
+                // query to get bookings for the user
+                const bookingQuery = query(bookingCollection, where("email", "==", userEmail));
 
-                    // get the bookings from Firestore
-                    const bookingSnapshot = await getDocs(bookingQuery);
+                // get the bookings from Firestore
+                const bookingSnapshot = await getDocs(bookingQuery);
 
-                    // map through the documents and get the data
-                    // const bookingList = bookingSnapshot.docs.map((doc) => ({
-                    //     id: doc.id,
-                    //     ...doc.data(),
-                    // }));
-                    const bookingList = bookingSnapshot.docs.map((doc) => {
-                        const data = doc.data();
-                        return {
-                            id: doc.id,
-                            ...data,
+                // map through the documents and get the data
+                // const bookingList = bookingSnapshot.docs.map((doc) => ({
+                //     id: doc.id,
+                //     ...doc.data(),
+                // }));
+                const bookingList = bookingSnapshot.docs.map((doc) => {
+                    const data = doc.data();
+                    return {
+                        id: doc.id,
+                        ...data,
 
-                            // Format the date timestamp to a readable string
-                            date: data.date ? new Date(data.date.seconds * 1000).toLocaleDateString() : 'No date',
-                        };
-                    });
+                        // Format the date timestamp to a readable string
+                        date: data.date ? new Date(data.date.seconds * 1000).toLocaleDateString() : 'No date',
+                    };
+                });
 
-                    // set the bookings state with the fetched data
-                    setBookings(bookingList);
+                // set the bookings state with the fetched data
+                setBookings(bookingList);
 
-                    console.log("Bookings fetched successfully:", bookingList);
+                // console.log("Bookings fetched successfully:", bookingList);
 
-                } catch (error) {
-                    console.log("Error fetching bookings:", error);
+            } catch (error) {
+                console.log("Error fetching bookings:", error);
 
-                    Alert.alert(
-                        "Error",
-                        "There was an error fetching your bookings. Please try again later.",
-                        [{ text: "OK" }]
-                    );
-                }
+                Alert.alert(
+                    "Error",
+                    "There was an error fetching your bookings. Please try again later.",
+                    [{ text: "OK" }]
+                );
             }
+        }
 
-            // set loading to false after fetching bookings
-            setLoading(false);
-        };
+        // set loading to false after fetching bookings
+        setLoading(false);
+    };
 
-        // call the fetchBookings function
+    // call the fetchBookings function when the component renders or user's email changes
+    useEffect(() => {
         fetchBookings();
     }, [userEmail]);
 
@@ -102,6 +102,8 @@ const History = () => {
             {
                 userEmail ? (
                     <FlatList
+                        onRefresh={fetchBookings}
+                        refreshing={loading}
                         data={bookings}
                         keyExtractor={(item) => item.id}
                         renderItem={({ item }) => (
@@ -121,7 +123,19 @@ const History = () => {
                     />
                 ) : (
                     <View className="flex-1 items-center justify-center">
-                        <Text className="text-white text-lg">No bookings found.</Text>
+                        <Text className="text-white text-lg">
+                            No bookings found.
+                        </Text>
+
+                        <Text className="text-gray-400 text-sm mt-2">
+                            Please log in to view your booking history.
+                            <Text
+                                className="text-[#fb9b33] font-bold"
+                                onPress={() => router.push('/signin')}
+                            >
+                                {' '}Log In
+                            </Text>
+                        </Text>
                     </View>
                 )
             }
