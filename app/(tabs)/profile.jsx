@@ -327,7 +327,18 @@ const Profile = () => {
                     <Text style={styles.welcomeText}>Welcome back!</Text>
                     <Text style={styles.emailText}>{userEmail}</Text>
 
-                    {/* user stats section - UPDATED: Dynamic bookings count and removed reviews */}
+                    {/* bio section - only show if user has a bio */}
+                    {userData?.bio && (
+                        <View style={styles.bioContainer}>
+                            <View style={styles.bioHeader}>
+                                <Ionicons name="document-text-outline" size={20} color="#f49b33" />
+                                <Text style={styles.bioHeaderText}>About Me</Text>
+                            </View>
+                            <Text style={styles.bioText}>{userData.bio}</Text>
+                        </View>
+                    )}
+
+                    {/* user stats section */}
                     <View style={styles.statsContainer}>
                         <View style={styles.statItem}>
                             <Text style={styles.statNumber}>
@@ -495,7 +506,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: 'rgba(255,255,255,0.08)',
         borderRadius: 12,
-        marginTop: 30,
+        marginTop: 25,
         paddingVertical: 15,
         paddingHorizontal: 20,
         width: '100%',
@@ -519,9 +530,35 @@ const styles = StyleSheet.create({
         marginTop: 5,
     },
 
+    // bio section styles
+    bioContainer: {
+        width: '100%',
+        backgroundColor: 'rgba(255,255,255,0.08)',
+        borderRadius: 12,
+        marginTop: 20,
+        padding: 15,
+    },
+    bioHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    bioHeaderText: {
+        color: '#f49b33',
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginLeft: 8,
+    },
+    bioText: {
+        color: '#ddd',
+        fontSize: 14,
+        lineHeight: 20,
+        fontStyle: 'italic',
+    },
+
     // menu styles
     menuContainer: {
-        marginTop: 30,
+        marginTop: 25,
         width: '100%',
         backgroundColor: 'rgba(255,255,255,0.05)',
         borderRadius: 12,
@@ -551,7 +588,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 40,
+        marginTop: 30,
         width: '100%',
     },
     logoutIcon: {
