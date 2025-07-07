@@ -30,6 +30,9 @@ const SignIn = () => {
                 // if user document exists then store the user email in AsyncStorage
                 await AsyncStorage.setItem("userEmail", values.email);
 
+                // store a flag in AsyncStorage to indicate that the user is not a guest
+                await AsyncStorage.setItem("isGuest", "false");
+
                 // navigate to the home page after successful sign-in
                 router.push("/home");
             } else {
