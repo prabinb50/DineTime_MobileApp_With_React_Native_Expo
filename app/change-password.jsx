@@ -354,3 +354,5 @@ const ChangePassword = () => {
 };
 
 export default ChangePassword;
+
+// so your codes are perfect till now. Now, please implement the notifications page. This page should also be dynamic in nature, this should be production ready app. Use native wind for stylibg. add comments in all codes in small letters.

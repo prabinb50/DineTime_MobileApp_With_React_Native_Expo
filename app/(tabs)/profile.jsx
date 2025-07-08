@@ -414,10 +414,9 @@ const Profile = () => {
                         <Text style={styles.signupText}>Create Account</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity
-                        style={styles.signinLink}
-                        onPress={() => router.push("/signin")}>
-                        <Text style={styles.signinText}>Already have an account? Sign In</Text>
+                    <TouchableOpacity onPress={() => router.push("/signin")} className="flex flex-row justify-center items-center">
+                        <Text className="text-white font-semibold">Already have an account? {" "}</Text>
+                        <Text className="text-base font-semibold underline text-[#f49b33]">Sign In</Text>
                     </TouchableOpacity>
                 </View>
             )}
