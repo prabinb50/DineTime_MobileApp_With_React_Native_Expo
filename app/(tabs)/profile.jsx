@@ -366,7 +366,7 @@ const Profile = () => {
                             <Ionicons name="chevron-forward" size={20} color="#777" />
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.menuItem}>
+                        <TouchableOpacity style={styles.menuItem} onPress={() => router.push('/history')}>
                             <Ionicons name="notifications-outline" size={24} color="#f49b33" />
                             <Text style={styles.menuText}>Notifications</Text>
                             <Ionicons name="chevron-forward" size={20} color="#777" />
@@ -380,7 +380,7 @@ const Profile = () => {
 
                         <TouchableOpacity
                             style={styles.menuItem}
-                            onPress={() => router.push('/help')}
+                        // onPress={() => router.push('/help')}
                         >
                             <Ionicons name="help-circle-outline" size={24} color="#f49b33" />
                             <Text style={styles.menuText}>Help & Support</Text>
