@@ -25,6 +25,9 @@ const ChangePassword = () => {
     const [changing, setChanging] = useState(false);
     const [errors, setErrors] = useState({});
 
+    // check if user is trying to change passworf
+    const isChangingPassword = currentPassword.trim() || newPassword.trim() || confirmPassword.trim();
+
     // validate password fields
     const validateForm = () => {
         const newErrors = {}; // initialize an empty object for errors
@@ -234,6 +237,7 @@ const ChangePassword = () => {
                         {/* password requirements hint */}
                         <View className="mt-2 bg-[#2a2a2a] p-3 rounded-lg">
                             <Text className="text-gray-400 text-xs mb-1">Password requirements:</Text>
+
                             <View className="flex-row items-center mb-1">
                                 <Ionicons
                                     name={newPassword.length >= 8 ? "checkmark-circle" : "ellipse-outline"}
@@ -242,6 +246,7 @@ const ChangePassword = () => {
                                 />
                                 <Text className="text-gray-400 text-xs ml-1">At least 8 characters</Text>
                             </View>
+
                             <View className="flex-row items-center mb-1">
                                 <Ionicons
                                     name={/[A-Z]/.test(newPassword) ? "checkmark-circle" : "ellipse-outline"}
@@ -250,6 +255,7 @@ const ChangePassword = () => {
                                 />
                                 <Text className="text-gray-400 text-xs ml-1">At least one uppercase letter</Text>
                             </View>
+
                             <View className="flex-row items-center mb-1">
                                 <Ionicons
                                     name={/[0-9]/.test(newPassword) ? "checkmark-circle" : "ellipse-outline"}
@@ -258,6 +264,7 @@ const ChangePassword = () => {
                                 />
                                 <Text className="text-gray-400 text-xs ml-1">At least one number</Text>
                             </View>
+
                             <View className="flex-row items-center">
                                 <Ionicons
                                     name={/[!@#$%^&*(),.?":{}|<>]/.test(newPassword) ? "checkmark-circle" : "ellipse-outline"}
@@ -281,6 +288,7 @@ const ChangePassword = () => {
                                 placeholderTextColor="#888"
                                 secureTextEntry={!showConfirmPassword}
                             />
+
                             <TouchableOpacity
                                 className="absolute right-3 top-3"
                                 onPress={() => setShowConfirmPassword(!showConfirmPassword)}
@@ -292,6 +300,7 @@ const ChangePassword = () => {
                                 />
                             </TouchableOpacity>
                         </View>
+
                         {errors.confirmPassword && (
                             <Text className="text-red-500 text-xs mt-1">{errors.confirmPassword}</Text>
                         )}
@@ -303,6 +312,7 @@ const ChangePassword = () => {
                             <Ionicons name="information-circle-outline" size={20} color="#f49b33" />
                             <Text className="text-[#f49b33] font-medium text-sm ml-2">Security Note</Text>
                         </View>
+
                         <Text className="text-gray-300 text-xs mt-2">
                             For your security, you'll be signed out after changing your password. You'll need to sign in again with your new password.
                         </Text>
@@ -328,13 +338,15 @@ const ChangePassword = () => {
                     </TouchableOpacity>
 
                     {/* cancel button */}
-                    <TouchableOpacity
-                        className="py-4 rounded-lg mb-16 flex-row justify-center items-center border border-gray-600"
-                        onPress={() => router.back()}
-                        disabled={changing}
-                    >
-                        <Text className="text-gray-300 font-medium">Cancel</Text>
-                    </TouchableOpacity>
+                    {isChangingPassword && (
+                        <TouchableOpacity
+                            className="py-4 rounded-lg mb-16 flex-row justify-center items-center border border-gray-600"
+                            onPress={() => router.back()}
+                            disabled={changing}
+                        >
+                            <Text className="text-gray-300 font-medium">Cancel</Text>
+                        </TouchableOpacity>
+                    )}
                 </ScrollView>
             </KeyboardAvoidingView>
         </SafeAreaView>

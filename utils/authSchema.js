@@ -1,5 +1,6 @@
 import * as Yup from "yup";
 
+// validation schema for forms
 const validationSchema = Yup.object().shape({
     email: Yup.string()
         .email("Invalid email")
