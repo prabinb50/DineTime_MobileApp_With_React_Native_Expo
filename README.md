@@ -47,25 +47,19 @@
 ## Installation
 
 1. **Clone the repository**
-
-   git clone https://github.com/yourusername/dinetime.git
-   cd dinetime
+- git clone https://github.com/yourusername/dinetime.git
+- cd dinetime
    
 2. **Install dependencies**
-
-    npm i
+- npm i
 
 3. **Set up Firebase**
-
-    Create a Firebase project at Firebase Console
-    Enable Authentication, Firestore, and Storage services
-    Add your Firebase configuration in config/firebaseConfig.js
+- Create a Firebase project at Firebase Console
+- Enable Authentication, Firestore, and Storage services
+- Add your Firebase configuration in config/firebaseConfig.js
 
 4. **Start the development server**
-
-    npx expo start
-    # or
-    npm start
+- npx expo start or npm start
 
 ---
 
@@ -80,8 +74,7 @@
 ## Building for Production
 
 1. **For Expo Go**
-
-    npx expo publish
+npx expo publish
 
 2. **For Native Builds**
 
