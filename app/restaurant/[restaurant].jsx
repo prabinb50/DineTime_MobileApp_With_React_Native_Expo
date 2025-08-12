@@ -1,7 +1,7 @@
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { useEffect, useRef, useState } from 'react';
-import { Dimensions, FlatList, Image, Linking, Platform, ScrollView, Text, View } from 'react-native'
+import { Dimensions, FlatList, Image, Linking, Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { db } from '../../config/firebaseConfig';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -10,6 +10,9 @@ import GuestPicker from '../../components/restaurant/GuestPicker';
 import FindSlots from '../../components/restaurant/FindSlots';
 
 const Restaurant = () => {
+    // router for navigation
+    const router = useRouter();
+
     // Get restaurant name from URL params
     const { restaurant } = useLocalSearchParams();
 
@@ -189,8 +192,18 @@ const Restaurant = () => {
             {/* Scrollable container for restaurant content */}
             <ScrollView className="h-full">
                 <View className="flex-1 my-2 p-2">
-                    {/* Restaurant name display */}
-                    <Text className="text-xl mr-2 font-semibold text-[#f49b33]">{restaurant}</Text>
+                    <View className="flex-row items-center gap-3 mb-2">
+                        {/* back button */}
+                        <TouchableOpacity
+                            onPress={() => router.back()}
+                            className="p-1 rounded-full bg-gray-800"
+                        >
+                            <Ionicons name="arrow-back" size={24} color="#f49b33" />
+                        </TouchableOpacity>
+
+                        {/* Restaurant name display */}
+                        <Text className="text-xl mr-2 font-semibold text-[#f49b33]">{restaurant}</Text>
+                    </View>
 
                     {/* Horizontal divider */}
                     <View className="border-b border-[#f49b33]" />
