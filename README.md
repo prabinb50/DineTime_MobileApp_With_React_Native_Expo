@@ -48,71 +48,69 @@
 
 1. **Clone the repository**
 
-    git clone https://github.com/yourusername/dinetime.git
-    cd dinetime
+       git clone https://github.com/yourusername/dinetime.git
+       cd dinetime
    
-2. **Install dependencies**
-- npm i
+3. **Install dependencies**
+
+        npm i
 
 3. **Set up Firebase**
-- Create a Firebase project at Firebase Console
-- Enable Authentication, Firestore, and Storage services
-- Add your Firebase configuration in config/firebaseConfig.js
+    - Create a Firebase project at Firebase Console
+    - Enable Authentication, Firestore, and Storage services
+    - Add your Firebase configuration in config/firebaseConfig.js
 
 4. **Start the development server**
-- npx expo start or npm start
+
+       npx expo start or npm start
 
 ---
 
 ## Running the App
-
-    iOS Simulator: Press i in the terminal or click on "Run on iOS simulator"
-    Android Emulator: Press a in the terminal or click on "Run on Android emulator"
-    Physical Device: Scan the QR code with the Expo Go app (available on `iOS` and `Android`)
+- iOS Simulator: Press `i` in the terminal or click on "Run on iOS simulator"
+- Android Emulator: Press `a` in the terminal or click on "Run on Android emulator"
+- Physical Device: Scan the QR code with the Expo Go app (available on `iOS` and `Android`)
 
 ---
 
 ## Building for Production
 
 1. **For Expo Go**
-npx expo publish
 
-2. **For Native Builds**
+        npx expo publish
+
+3. **For Native Builds**
 
     *For Android*
-
-    npx expo build:android
+   
+        npx expo build:android
 
     *For iOS*
-
-    npx expo build:ios
+   
+        npx expo build:ios
 
 ---
 
 ## Development Workflow
 
 1. **Environment Setup**
+    - Ensure you have Node.js and npm installed
+    - Install Expo CLI: npm install -g expo-cli
 
-    Ensure you have Node.js and npm installed
-    Install Expo CLI: npm install -g expo-cli
+3. **Code Formatting and Linting**
+    - This project uses ESLint for code quality
+    - Run npm run lint to check for code issues
 
-2. **Code Formatting and Linting**
-
-    This project uses ESLint for code quality
-    Run npm run lint to check for code issues
-
-3. **Testing**
-
-    Run npm test to execute tests
+4. **Testing**
+    - Run npm test to execute tests
 
 ---
 
 ## Contributing
-
-    Fork the repository
-    Create your feature branch: git checkout -b feature/amazing-feature
-    Commit your changes: git commit -m 'Add some amazing feature'
-    Push to the branch: git push origin feature/amazing-feature
-    Open a Pull Request
+- Fork the repository
+- Create your feature branch: git checkout -b feature/amazing-feature
+- Commit your changes: git commit -m 'Add some amazing feature'
+- Push to the branch: git push origin feature/amazing-feature
+- Open a Pull Request
 
 
