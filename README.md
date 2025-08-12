@@ -1,7 +1,7 @@
 # DineTime - Restaurant Booking App
 
 ## Overview
-**DineTime** is a mobile application built with **React Native**, **Expo**, and **Firebase** that allows users to discover restaurants and make table reservations. The app provides a seamless experience for restaurant bookings, personalized user profiles, and restaurant exploration.
+**DineTime** is a mobile application built with **React Native**, **Expo**, **NativeWind**, and **Firebase** that allows users to discover restaurants and make table reservations. The app provides a seamless experience for restaurant bookings, personalized user profiles, and restaurant exploration.
 
 ---
 
@@ -36,7 +36,7 @@
 
 ## Technology Stack
 - **Frontend:** React Native, Expo
-- **Styling:** NativeWind (Tailwind CSS for React Native)
+- **Styling:** NativeWind
 - **Navigation:** Expo Router (file-based routing)
 - **Authentication & Database:** Firebase (Authentication, Firestore, Storage)
 - **Forms Management:** Formik with validation schemas
@@ -47,18 +47,22 @@
 ## Installation
 
 1. **Clone the repository**
+
    git clone https://github.com/yourusername/dinetime.git
    cd dinetime
    
 2. **Install dependencies**
+
     npm i
 
 3. **Set up Firebase**
+
     Create a Firebase project at Firebase Console
     Enable Authentication, Firestore, and Storage services
     Add your Firebase configuration in config/firebaseConfig.js
 
 4. **Start the development server**
+
     npx expo start
     # or
     npm start
@@ -67,8 +71,8 @@
 
 ## Running the App
 
-    iOS Simulator: Press `i` in the terminal or click on "Run on iOS simulator"
-    Android Emulator: Press `a` in the terminal or click on "Run on Android emulator"
+    iOS Simulator: Press i in the terminal or click on "Run on iOS simulator"
+    Android Emulator: Press a in the terminal or click on "Run on Android emulator"
     Physical Device: Scan the QR code with the Expo Go app (available on `iOS` and `Android`)
 
 ---
@@ -76,27 +80,35 @@
 ## Building for Production
 
 1. **For Expo Go**
+
     npx expo publish
 
 2. **For Native Builds**
+
     *For Android*
+
     npx expo build:android
 
     *For iOS*
+
     npx expo build:ios
 
 ---
 
 ## Development Workflow
+
 1. **Environment Setup**
+
     Ensure you have Node.js and npm installed
     Install Expo CLI: npm install -g expo-cli
 
 2. **Code Formatting and Linting**
+
     This project uses ESLint for code quality
     Run npm run lint to check for code issues
 
 3. **Testing**
+
     Run npm test to execute tests
 
 ---
@@ -104,9 +116,9 @@
 ## Contributing
 
     Fork the repository
-    Create your feature branch: `git checkout -b feature/amazing-feature`
-    Commit your changes: `git commit -m 'Add some amazing feature'`
-    Push to the branch: `git push origin feature/amazing-feature`
+    Create your feature branch: git checkout -b feature/amazing-feature
+    Commit your changes: git commit -m 'Add some amazing feature'
+    Push to the branch: git push origin feature/amazing-feature
     Open a Pull Request
 
 
