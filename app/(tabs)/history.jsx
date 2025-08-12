@@ -170,8 +170,18 @@ const History = () => {
             {userEmail ? (
                 <>
                     {/* header section - only visible to logged in users */}
-                    <View className="px-5 py-4 border-b border-gray-800">
-                        <Text className="text-white text-2xl font-bold">Booking History</Text>
+                    <View className="px-5 py-4 border-b border-gray-700">
+                        <View className="flex-row items-center gap-4">
+                            <TouchableOpacity
+                                onPress={() => router.back()}
+                                className="p-1 rounded-full bg-gray-800"
+                            >
+                                <Ionicons name="arrow-back" size={24} color="#f49b33" />
+                            </TouchableOpacity>
+
+                            <Text className="text-white text-2xl font-bold">Booking History</Text>
+                        </View>
+
                         <Text className="text-gray-400 text-sm mt-1">
                             You can view your past, present, and future bookings here.
                         </Text>

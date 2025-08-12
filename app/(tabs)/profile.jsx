@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { signOut } from 'firebase/auth';
-import { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Alert, Image, StyleSheet, ActivityIndicator, Modal } from 'react-native';
+import { useEffect, useState, useCallback } from 'react';
+import { View, Text, TouchableOpacity, Alert, Image, StyleSheet, ActivityIndicator, Modal, ScrollView, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { auth, db, storage } from '../../config/firebaseConfig';
 import { Ionicons } from '@expo/vector-icons';
@@ -33,12 +33,15 @@ const Profile = () => {
 
     // state to hold bookings count
     const [bookingsCount, setBookingsCount] = useState(0);
+    
+    // state to track if data is being refreshed
+    const [refreshing, setRefreshing] = useState(false);
 
     // hook to navigate between pages
     const router = useRouter();
 
     // function to fetch user data from firestore and AsyncStorage
-    const fetchUserData = async () => {
+    const fetchUserData = useCallback(async () => {
         try {
             // get user email from AsyncStorage
             const email = await AsyncStorage.getItem("userEmail");
@@ -69,7 +72,14 @@ const Profile = () => {
             );
         } finally {
             setLoading(false);
+            setRefreshing(false);
         }
+    }, []);
+    
+    // function to handle refreshing the user data
+    const handleRefresh = () => {
+        setRefreshing(true);
+        fetchUserData();
     };
 
     // Function to fetch bookings count from Firestore
@@ -96,7 +106,7 @@ const Profile = () => {
     // load user data when the component mounts
     useEffect(() => {
         fetchUserData();
-    }, []);
+    }, [fetchUserData]);
 
     // function to handle user logout
     const handleLogout = async () => {
@@ -296,7 +306,18 @@ const Profile = () => {
 
             {/* main content */}
             {userEmail ? (
-                <View style={styles.profileContainer}>
+                <ScrollView
+                    style={{width: '100%'}}
+                    contentContainerStyle={styles.profileContainer}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={handleRefresh}
+                            colors={["#f49b33"]}
+                            tintColor="#f49b33"
+                        />
+                    }
+                >
                     {/* profile image section with upload functionality */}
                     <View style={styles.avatarContainer}>
                         {uploading ? (
@@ -395,7 +416,7 @@ const Profile = () => {
                         <Ionicons name="log-out-outline" size={20} color="#fff" style={styles.logoutIcon} />
                         <Text style={styles.logoutText}>Logout</Text>
                     </TouchableOpacity>
-                </View>
+                </ScrollView>
             ) : (
                 // guest user view
                 <View style={styles.guestContainer}>
